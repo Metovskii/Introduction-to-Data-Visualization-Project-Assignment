@@ -11,10 +11,11 @@ import queue
 
 # --- AYARLAR ---
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_ADI = "gemini-3-flash-preview:latest"  # Ana model (F8)
+MODEL_ADI = "gemma3:1b"  # Ana model (F8)
 TEXT_MODEL_CANDIDATES = [
     MODEL_ADI,
-    "gemini-3-flash-preview:cloud",
+    "gemma3:4b",
+    "gemma3:12b",
 ]
 
 KISAYOL_METIN = keyboard.Key.f8  # Metin secimi icin kisayol
@@ -24,28 +25,56 @@ KISAYOL_METIN = keyboard.Key.f8  # Metin secimi icin kisayol
 root = None
 gui_queue = queue.Queue()
 kisayol_basildi = False
+menu_acik = False  # BUG 1 FIX: Menü açıkken tekrar tetiklemeyi önlemek için
 
 
 # --- MENÜ SEÇENEKLERİ VE PROMPT'LAR ---
 ISLEMLER = {
-    "📝 Gramer Düzelt": "Bu metni Türkçe yazım ve dil bilgisi kurallarına göre düzelt, resmi ve akıcı olsun. Sadece sonucu ver.",
-    "🇬🇧 İngilizceye Çevir": "Bu metni İngilizceye çevir. Sadece çeviriyi ver.",
-    "🇹🇷 Türkçeye Çevir": "Bu metni Türkçeye çevir. Sadece çeviriyi ver.",
-    "📑 Özetle (Madde Madde)": "Bu metni analiz et ve en önemli noktaları madde madde özetle.",
-    "💼 Daha Resmi Yap": "Bu metni kurumsal bir e-posta diline çevir, çok resmi olsun.",
-    "🐍 Python Koduna Çevir": "Bu metindeki isteği yerine getiren bir Python kodu yaz. Sadece kodu ver.",
-    "📧 Cevap Yaz (Mail)": "Bu gelen bir e-posta, buna kibar ve profesyonel bir cevap metni taslağı yaz.",
-    "🎮 PS5 Oyun Skor + Acımasız Yorum": (
-        "Seçili metni bir PS5 oyunu adı olarak ele al. Aşağıdaki formatta Türkçe cevap ver:\n"
-        "1) Oyun: <ad>\n"
-        "2) Topluluk Beğeni Skorları:\n"
-        "- Metacritic User Score: <değer veya 'bilgi yok'>\n"
-        "- OpenCritic / benzer eleştirmen ortalaması: <değer veya 'bilgi yok'>\n"
-        "- Oyuncu yorumu ortalaması (PS Store vb.): <değer veya 'bilgi yok'>\n"
-        "3) Hüküm: sadece 'IYI' veya 'KOTU'\n"
-        "4) Acımasız Yorum: 2-4 cümle, net ve sert.\n"
-        "Kurallar: Kesin bilmediğin puanı uydurma, onun yerine 'bilgi yok' yaz. "
-        "Yorumu skorlarla tutarlı kur."
+    "🐦 X (Twitter) Flood Zincirine Çevir": (
+        "Sen deneyimli bir sosyal medya içerik üreticisisin. "
+        "Aşağıdaki metni veya fikri, Twitter/X platformu için bir flood zincirine (thread) dönüştür. "
+        "Kurallar:\n"
+        "- Her tweet 280 karakteri GEÇMEMELİ\n"
+        "- İlk tweet dikkat çekici ve merak uyandırıcı olmalı (hook)\n"
+        "- Her tweet [1/N], [2/N] şeklinde numaralandırılmalı\n"
+        "- Akıcı, sürükleyici ve samimi bir dil kullan\n"
+        "- Son tweette güçlü bir kapanış veya harekete geçirici mesaj (CTA) olsun\n"
+        "- Uygun yerlerde emoji kullan ama abartma\n"
+        "- Türkçe yaz\n"
+        "Sadece flood içeriğini ver, açıklama ekleme.\n\nMetin/Fikir:"
+    ),
+    "📸 YouTube Shorts / TikTok Video Senaryosu Yaz": (
+        "Sen viral kısa video içerikleri üreten deneyimli bir içerik stratejistisin. "
+        "Aşağıdaki metni veya fikri, YouTube Shorts veya TikTok için bir video senaryosuna dönüştür. "
+        "Format:\n"
+        "🎬 HOOK (0-3 saniye): [İzleyiciyi anında yakalayan açılış cümlesi]\n"
+        "📖 KONU GELİŞİMİ (3-45 saniye): [Bölüm bölüm anlatım, her bölüm için ne söyleneceği ve varsa görsel/efekt önerisi]\n"
+        "🔥 KAPANIŞ & CTA (45-60 saniye): [Güçlü kapanış + beğen/takip et/yorum yap yönlendirmesi]\n\n"
+        "Ekstra kurallar:\n"
+        "- Dil hızlı, enerjik ve sohbet havasında olsun\n"
+        "- Her cümle kısa ve net olsun\n"
+        "- Türkçe yaz\n"
+        "Sadece senaryoyu ver.\n\nMetin/Fikir:"
+    ),
+    "🧲 Tıklanma Oranı Yüksek Başlıklar Üret": (
+        "Sen SEO ve sosyal medya optimizasyonu konusunda uzman bir içerik stratejistisin. "
+        "Aşağıdaki metni veya fikri analiz et ve farklı platformlar için yüksek tıklanma oranı sağlayacak başlıklar üret. "
+        "ÖNEMLİ: Clickbait OLMAYACAK — vaadi gerçek ve içerikle uyumlu olacak.\n\n"
+        "Format:\n"
+        "📰 HABER / MAKALE BAŞLIĞI (3 seçenek)\n"
+        "▸ [başlık 1]\n"
+        "▸ [başlık 2]\n"
+        "▸ [başlık 3]\n\n"
+        "🐦 TWITTER/X BAŞLIĞI (3 seçenek)\n"
+        "▸ [başlık 1]\n"
+        "▸ [başlık 2]\n"
+        "▸ [başlık 3]\n\n"
+        "📸 YOUTUBE / TİKTOK BAŞLIĞI (3 seçenek)\n"
+        "▸ [başlık 1]\n"
+        "▸ [başlık 2]\n"
+        "▸ [başlık 3]\n\n"
+        "Her başlık için neden tıklanır? kısmını 1 satırda kısaca açıkla.\n"
+        "Türkçe yaz. Sadece başlıkları ve kısa gerekçelerini ver.\n\nMetin/Fikir:"
     ),
 }
 
@@ -89,12 +118,12 @@ def ollama_cevap_al(prompt):
             "prompt": prompt,
             "stream": False,
             "options": {
-                "temperature": 0.7,
-                "top_p": 0.9,
+                "temperature": 0.85,
+                "top_p": 0.92,
             },
         }
 
-        response = requests.post(OLLAMA_URL, json=payload, timeout=60)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=120)
 
         if response.status_code == 200:
             result = response.json()
@@ -139,46 +168,67 @@ def strip_code_fence(text):
 
 
 def secili_metni_kopyala(max_deneme=4):
-    sentinel = f"__AI_ASISTAN__{time.time_ns()}__"
+    sentinel = f"__ICERIK_ASISTAN__{time.time_ns()}__"
     try:
         pyperclip.copy(sentinel)
     except Exception:
         pass
 
+    metin = ""
     for _ in range(max_deneme):
         pyautogui.hotkey("ctrl", "c")
         time.sleep(0.2)
         metin = pyperclip.paste()
         if metin and metin.strip() and metin != sentinel:
             return metin
+
+    # BUG 3 FIX: Başarısız olursa sentinel panodan temizlenir
+    try:
+        if pyperclip.paste() == sentinel:
+            pyperclip.copy("")
+    except Exception:
+        pass
+
     return ""
-
-
-def pencere_modunda_gosterilsin_mi(komut_adi):
-    return "PS5 Oyun Skor" in komut_adi
 
 
 def sonuc_penceresi_goster(baslik, icerik):
     pencere = tk.Toplevel(root)
-    pencere.title(baslik)
-    pencere.geometry("780x520")
-    pencere.minsize(520, 320)
+    pencere.title(f"✨ {baslik}")
+    pencere.geometry("820x580")
+    pencere.minsize(600, 400)
     pencere.attributes("-topmost", True)
+    pencere.configure(bg="#1a1a2e")
 
-    frame = tk.Frame(pencere, bg="#1f1f1f")
-    frame.pack(fill="both", expand=True, padx=10, pady=10)
+    # Başlık bar
+    baslik_frame = tk.Frame(pencere, bg="#16213e", pady=10)
+    baslik_frame.pack(fill="x")
+    tk.Label(
+        baslik_frame,
+        text=baslik,
+        bg="#16213e",
+        fg="#e2b96f",
+        font=("Segoe UI", 11, "bold"),
+    ).pack(padx=15)
+
+    # İçerik alanı
+    frame = tk.Frame(pencere, bg="#1a1a2e")
+    frame.pack(fill="both", expand=True, padx=12, pady=10)
 
     text_alani = tk.Text(
         frame,
         wrap="word",
-        bg="#2b2b2b",
-        fg="white",
+        bg="#0f3460",
+        fg="#e0e0e0",
         insertbackground="white",
         font=("Segoe UI", 10),
-        padx=10,
-        pady=10,
+        padx=14,
+        pady=12,
+        relief="flat",
+        selectbackground="#e2b96f",
+        selectforeground="#1a1a2e",
     )
-    kaydirma = tk.Scrollbar(frame, command=text_alani.yview)
+    kaydirma = tk.Scrollbar(frame, command=text_alani.yview, bg="#16213e", troughcolor="#0f3460")
     text_alani.configure(yscrollcommand=kaydirma.set)
 
     text_alani.pack(side="left", fill="both", expand=True)
@@ -187,36 +237,44 @@ def sonuc_penceresi_goster(baslik, icerik):
     text_alani.insert("1.0", icerik)
     text_alani.config(state="disabled")
 
-    alt_frame = tk.Frame(pencere, bg="#1f1f1f")
-    alt_frame.pack(fill="x", padx=10, pady=(0, 10))
+    # Alt butonlar
+    alt_frame = tk.Frame(pencere, bg="#1a1a2e")
+    alt_frame.pack(fill="x", padx=12, pady=(0, 12))
 
     def panoya_kopyala():
         pyperclip.copy(icerik)
+        kopyala_btn.config(text="✅ Kopyalandı!")
+        pencere.after(2000, lambda: kopyala_btn.config(text="📋 Panoya Kopyala"))
 
-    tk.Button(
+    kopyala_btn = tk.Button(
         alt_frame,
-        text="Panoya Kopyala",
+        text="📋 Panoya Kopyala",
         command=panoya_kopyala,
-        bg="#3d3d3d",
-        fg="white",
-        activebackground="#4d4d4d",
-        activeforeground="white",
+        bg="#e2b96f",
+        fg="#1a1a2e",
+        activebackground="#f0c97a",
+        activeforeground="#1a1a2e",
         relief="flat",
-        padx=12,
-        pady=6,
-    ).pack(side="left")
+        font=("Segoe UI", 9, "bold"),
+        padx=14,
+        pady=7,
+        cursor="hand2",
+    )
+    kopyala_btn.pack(side="left")
 
     tk.Button(
         alt_frame,
         text="Kapat",
         command=pencere.destroy,
-        bg="#3d3d3d",
-        fg="white",
-        activebackground="#4d4d4d",
+        bg="#2d2d44",
+        fg="#aaaaaa",
+        activebackground="#3d3d55",
         activeforeground="white",
         relief="flat",
-        padx=12,
-        pady=6,
+        font=("Segoe UI", 9),
+        padx=14,
+        pady=7,
+        cursor="hand2",
     ).pack(side="right")
 
     pencere.focus_force()
@@ -225,10 +283,10 @@ def sonuc_penceresi_goster(baslik, icerik):
 
 def islemi_yap(komut_adi, secili_metin):
     prompt_emri = ISLEMLER[komut_adi]
-    full_prompt = f"{prompt_emri}:\n\n'{secili_metin}'"
+    full_prompt = f"{prompt_emri}\n\n{secili_metin}"
 
-    print(f"🤖 İşlem: {komut_adi}")
-    print("⏳ Ollama ile işleniyor...")
+    print(f"✍️  İşlem: {komut_adi}")
+    print("⏳ Ollama ile içerik üretiliyor...")
 
     sonuc = ollama_cevap_al(full_prompt)
     if not sonuc:
@@ -236,19 +294,9 @@ def islemi_yap(komut_adi, secili_metin):
         return
 
     sonuc = strip_code_fence(sonuc)
-    if sonuc.startswith("'") and sonuc.endswith("'"):
-        sonuc = sonuc[1:-1]
 
-    if pencere_modunda_gosterilsin_mi(komut_adi):
-        gui_queue.put((sonuc_penceresi_goster, (komut_adi, sonuc)))
-        print("âœ… SonuÃ§ ayrÄ± pencerede gÃ¶sterildi.")
-        return
-
-    time.sleep(0.2)
-    pyperclip.copy(sonuc)
-    time.sleep(0.1)
-    pyautogui.hotkey("ctrl", "v")
-    print("✅ İşlem tamamlandı!")
+    gui_queue.put((sonuc_penceresi_goster, (komut_adi, sonuc)))
+    print("✅ İçerik üretildi, pencerede gösteriliyor.")
 
 
 def process_queue():
@@ -259,8 +307,12 @@ def process_queue():
                 task = gui_queue.get_nowait()
             except queue.Empty:
                 break
-            func, args = task
-            func(*args)
+            # BUG 2 FIX: GUI görevlerindeki hatalar artık yakalanıp loglanıyor
+            try:
+                func, args = task
+                func(*args)
+            except Exception as e:
+                print(f"❌ GUI görev hatası: {e}")
     finally:
         if root:
             root.after(100, process_queue)
@@ -268,35 +320,47 @@ def process_queue():
 
 def menu_goster():
     """Metni kopyalar ve menüyü gösterir (ana thread)."""
+    global menu_acik
+
+    # BUG 1 FIX: Menü zaten açıksa tekrar açma
+    if menu_acik:
+        return
+
     secili_metin = secili_metni_kopyala()
     if not secili_metin.strip():
         gui_queue.put(
             (
                 messagebox.showwarning,
                 (
-                    "Secim Bulunamadi",
-                    "Lutfen once metin secin, sonra F8 ile menuyu acin.",
+                    "Seçim Bulunamadı",
+                    "Lütfen önce bir metin veya fikir seçin, sonra F8 ile menüyü açın.",
                 ),
             )
         )
         return
 
+    menu_acik = True
+
     menu = tk.Menu(
         root,
         tearoff=0,
-        bg="#2b2b2b",
-        fg="white",
-        activebackground="#4a4a4a",
-        activeforeground="white",
+        bg="#16213e",
+        fg="#e0e0e0",
+        activebackground="#e2b96f",
+        activeforeground="#1a1a2e",
         font=("Segoe UI", 10),
     )
+
+    # Başlık (tıklanamaz)
+    menu.add_command(label="✨ İçerik Üretim Asistanı", state="disabled",
+                     font=("Segoe UI", 9, "bold"))
+    menu.add_separator()
 
     def komut_olustur(k_adi, s_metin):
         def komut_calistir():
             threading.Thread(
                 target=islemi_yap, args=(k_adi, s_metin), daemon=True
             ).start()
-
         return komut_calistir
 
     for baslik in ISLEMLER.keys():
@@ -305,43 +369,51 @@ def menu_goster():
     menu.add_separator()
     menu.add_command(label="❌ İptal", command=lambda: None)
 
+    # BUG 1 FIX: Menü kapanınca flag sıfırlanır
+    def on_menu_unpost():
+        global menu_acik
+        menu_acik = False
+
+    menu.bind("<Unmap>", lambda e: on_menu_unpost())
+
     try:
         x, y = pyautogui.position()
         menu.tk_popup(x, y)
     finally:
         menu.grab_release()
+        menu_acik = False  # tk_popup bloklamadığı durumlarda da sıfırla
 
 
 def on_press(key):
     global kisayol_basildi
-    try:
-        if key == KISAYOL_METIN and not kisayol_basildi:
-            kisayol_basildi = True
-            gui_queue.put((menu_goster, ()))
-    except AttributeError:
-        pass
+    if key == KISAYOL_METIN and not kisayol_basildi:
+        kisayol_basildi = True
+        gui_queue.put((menu_goster, ()))
 
 
 def on_release(key):
     global kisayol_basildi
-    try:
-        if key == KISAYOL_METIN:
-            kisayol_basildi = False
-    except AttributeError:
-        pass
+    if key == KISAYOL_METIN:
+        kisayol_basildi = False
 
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("🤖 AI Asistan - Metin İşleme")
+    print("✨ Sosyal Medya & İçerik Üretim Asistanı")
     print("=" * 60)
     aktif_text_model = get_available_text_model()
-    print(f"📦 Metin İşleme (F8): {aktif_text_model}")
+    print(f"📦 Aktif Model (F8): {aktif_text_model}")
     print()
     print("🔧 Kullanım:")
-    print("   F8 - Metin sec ve AI islemleri yap")
+    print("   1) Herhangi bir metni veya fikri seçin")
+    print("   2) F8 tuşuna basın")
+    print("   3) Üretmek istediğiniz içerik türünü seçin")
     print()
-    print("⚠️ Programı kapatmak için bu pencereyi kapatın veya Ctrl+C yapın.")
+    print("📋 Mevcut İşlemler:")
+    for islem in ISLEMLER.keys():
+        print(f"   {islem}")
+    print()
+    print("⚠️  Programı kapatmak için bu pencereyi kapatın veya Ctrl+C yapın.")
     print("=" * 60)
 
     try:
@@ -349,9 +421,9 @@ if __name__ == "__main__":
         if test_response.status_code == 200:
             print("✅ Ollama bağlantısı başarılı!")
         else:
-            print("⚠️ Ollama'ya bağlanılamadı, servisi kontrol edin!")
+            print("⚠️  Ollama'ya bağlanılamadı, servisi kontrol edin!")
     except Exception:
-        print("⚠️ Ollama çalışmıyor olabilir! 'ollama serve' ile başlatın.")
+        print("⚠️  Ollama çalışmıyor olabilir! 'ollama serve' ile başlatın.")
 
     print()
 

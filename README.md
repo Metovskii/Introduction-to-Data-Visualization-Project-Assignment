@@ -1,121 +1,158 @@
-# AI Asistan Kampusu
+# ✨ Sosyal Medya & İçerik Üretim Asistanı
 
 <div align="center">
 
-### Sekilli Sukullu Ogrenci Baslangic Rehberi
+### Sıkıcı bir metni seç → F8'e bas → Viral içeriğe dönüştür
 
-`Local AI + Cloud AI = Daha hizli ogrenme`
-
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-111827?style=for-the-badge)](https://docs.ollama.com/quickstart)
-[![Gemini 3 Preview](https://img.shields.io/badge/Gemini%203-Preview-0f766e?style=for-the-badge)](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/get-started-with-gemini-3)
-[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Vertex%20AI-1a73e8?style=for-the-badge)](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart)
+[![Windows](https://img.shields.io/badge/Windows-Tek%20Tık-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://docs.ollama.com/windows)
+
+**Kurulum otomatik · Framework yok · Tek `.pyw` dosyası**
 
 </div>
 
-```text
- ____  ____     _   _ _____ _   _ _  __      _    ____ ___ _
-|  _ \|  _ \   | | | |  ___| | | | |/ /     / \  / ___|_ _| |
-| | | | |_) |  | | | | |_  | | | | ' /     / _ \ \___ \| || |
-| |_| |  _ <   | |_| |  _| | |_| | . \    / ___ \ ___) | || |___
-|____/|_| \_\   \___/|_|    \___/|_|\_\  /_/   \_\____/___|_____|
-K   K  L      U   U  BBBB   EEEEE         H   H   OOO    SSSS          GGG   EEEEE  L      DDDD   IIIII  N   N           !
-K  K   L      U   U  B   B  E             H   H  O   O  S             G      E      L      D   D    I    NN  N           !
-KKK    L      U   U  BBBB   EEE           HHHHH  O   O   SSS          G  GG  EEE    L      D   D    I    N N N           !
-K  K   L      U   U  B   B  E             H   H  O   O      S         G   G  E      L      D   D    I    N  NN
-K   K  LLLLL   UUU   BBBB   EEEEE         H   H   OOO   SSSS           GGG   EEEEE  LLLLL  DDDD   IIIII  N   N           !
+---
+
+## 🎯 Bu Proje Nedir?
+
+Haber sitelerinde okuduğunuz uzun ve sıkıcı bir makale ya da aklınıza gelen ham bir fikir, sosyal medyada paylaşılabilir hale gelmesi için saatler alabilir. Doğru format, dikkat çekici bir açılış, platform kuralları... hepsi ayrı bir iş.
+
+**Sosyal Medya & İçerik Üretim Asistanı**, bilgisayarınızda arka planda çalışır. Herhangi bir metni seçip F8'e basmanız yeterlidir — yapay zeka saniyeler içinde o metni istediğiniz içerik formatına dönüştürür.
+
+---
+
+## 🤔 Neden Bu Aracı Kullanmalısınız?
+
+Sosyal medya içeriği üretmek zaman alır ve platform kurallarını bilmek gerektirir. Bu araç ise:
+
+- **Anında çalışır** — tarayıcı, belge, not defteri; herhangi bir uygulamada metni seçip F8'e basın
+- **Platform uyumlu üretir** — her seçenek o platforma özel kurallara göre (karakter sınırı, hook, CTA) içerik yazar
+- **Clickbait değil** — başlıklar ilgi çekici ama yanıltıcı değil; içerikle uyumlu
+- **Yerel çalışır** — verileriniz dışarı çıkmaz, internet bağlantısı gerekmez
+
+---
+
+## 👥 Hedef Kitle
+
+| Kullanıcı | Kullanım Amacı |
+|-----------|----------------|
+| İçerik üreticileri | Haberleri ve fikirleri hızla sosyal medya formatına çevirmek |
+| Öğrenciler | Ders notlarından veya makalelerden özet içerik üretmek |
+| Yazılım geliştiriciler | Teknik konuları geniş kitlelere ulaşacak şekilde yazmak |
+
+---
+
+## 🗂 Menü Seçenekleri
+
+Herhangi bir metni seçip **F8**'e bastığınızda şu seçenekler çıkar:
+
+| Seçenek | Ne Yapar? |
+|---------|-----------|
+| 🐦 X (Twitter) Flood Zincirine Çevir | Hook + gelişim + CTA yapısında, 280 karakter sınırına uygun numaralı tweet zinciri üretir |
+| 📸 YouTube Shorts / TikTok Video Senaryosu Yaz | 60 saniyelik kısa video senaryosu yazar: 0-3sn hook, 3-45sn gelişim, 45-60sn kapanış |
+| 🧲 Tıklanma Oranı Yüksek Başlıklar Üret | Haber, Twitter ve YouTube/TikTok için 3'er adet başlık + neden tıklanır gerekçesi |
+
+Tüm çıktılar ayrı bir pencerede açılır. **"Panoya Kopyala"** butonuyla istediğiniz platforma yapıştırabilirsiniz.
+
+---
+
+## 🚀 Nasıl Çalışır?
+
+**Adım 1 — Bir kez kur**
+
+`BASLAT.bat` dosyasını çalıştır. Gerekli ortamı otomatik kurar.
+
+**Adım 2 — Metin seç**
+
+Tarayıcıda, belgede veya herhangi bir uygulamada bir metin ya da fikri seçin.
+
+**Adım 3 — F8'e bas**
+
+Menü açılır. İstediğiniz içerik türünü seçin.
+
+**Adım 4 — Kopyala & Paylaş**
+
+Üretilen içerik ayrı pencerede görünür. Panoya kopyalayıp platforma yapıştırın.
+
+---
+
+## 🔄 Uygulama Akışı
+
+```mermaid
+flowchart TD
+    A([🖱️ Kullanıcı Metin Seçer]) --> B[F8 Tuşuna Basar]
+    B --> C[Seçili Metin Panoya Kopyalanır]
+    C --> D[📋 Menü Açılır]
+
+    D --> E{İçerik Türü\nSeçilir}
+
+    E -->|🐦 Flood| F[Tweet Zinciri Promptu\nHazırlanır]
+    E -->|📸 Senaryo| G[Video Senaryosu Promptu\nHazırlanır]
+    E -->|🧲 Başlıklar| H[Başlık Üretim Promptu\nHazırlanır]
+
+    F --> I[⚙️ Ollama API\ngemma3 Modeli]
+    G --> I
+    H --> I
+
+    I --> J[✨ İçerik Üretilir]
+    J --> K[📄 Sonuç Penceresi Açılır]
+    K --> L{Kullanıcı}
+    L -->|Panoya Kopyala| M[📋 Platforma Yapıştırılır]
+    L -->|Kapat| N([✅ Bitti])
+    M --> N
 ```
 
-> [!IMPORTANT]
-> Gemini 3 preview "indirilen bir program" degil, Google Cloud Vertex AI uzerinden API ile kullanilan bir model ailesidir.
+---
 
-## 0) Ogrenci Icin Tek Adim
+## 🛠 Teknik Detaylar
 
-1. Ollama'yi bir kez kur: https://docs.ollama.com/windows models kısmına gir https://ollama.com/library  ve gemini 3 preview cloud modelinini çalıştır yetki giriş gerekecek. ollama artık lokalinde bir LLM olarak sana hizmet vermeye hazır .
+| Teknoloji | Kullanım Amacı |
+|-----------|----------------|
+| Python 3.13 | Ana uygulama dili |
+| Tkinter | Menü ve sonuç penceresi arayüzü |
+| pynput | F8 kısayol dinleyici |
+| pyperclip / pyautogui | Metin seçme ve pano işlemleri |
+| Ollama API | Yerel yapay zeka modeli (gemma3) |
 
-2. Bu klasorde sadece `BASLAT.bat` calistir.
-3. Hepsi bu kadar.
+Framework kullanılmamıştır. Tek bir `.pyw` dosyasıdır, arka planda sessizce çalışır.
 
-> [!IMPORTANT]
-> Ogrenci tarafinda ekstra komut gerekmez. `BASLAT.bat` gerekli durumda `kurulum.bat` dosyasini otomatik cagirir ve ortami kendi kurar.
+---
 
-## 1) BASLAT Calisinca Ne Oluyor?
+## 📁 Proje Yapısı
 
-1. `BASLAT.bat` önce `.venv` var mi kontrol eder.
-2. Yoksa `kurulum.bat` otomatik calisir; Python 3 kontrolu, `.venv` olusturma, `pip` guncelleme ve `requirements.txt` paket kurulumu yapilir.
-3. Sonra `main.pyw` arka planda acilir.
-4. Uygulama varsayilan olarak `gemma3:1b` modeliyle Ollama'ya istek atar.
-
-Ollama API varsayilan adresi: `http://localhost:11434`
-
-## 2) Google Cloud Gemini 3 Preview (Vertex AI)
-
-### Once gerekli olanlar
-- Google Cloud projesi
-- Billing acik olmali
-- Vertex AI API aktif olmali
-- `gcloud` CLI kurulu olmali
-
-### gcloud giris ve kimlik
-
-```powershell
-gcloud init
-gcloud auth application-default login
+```
+icerik-asistani/
+│
+├── main.pyw          # Uygulamanın tamamı
+├── BASLAT.bat        # Tek tıkla başlatıcı
+├── kurulum.bat       # Ortam kurulum scripti
+└── requirements.txt  # Python bağımlılıkları
 ```
 
-### Proje ve API ayari
+---
 
-```powershell
-gcloud config set project YOUR_PROJECT_ID
-gcloud services enable aiplatform.googleapis.com
+## 💻 Kullanım
+
+Kurulum otomatiktir:
+
+```bash
+# Repoyu klonla
+git clone https://github.com/Metovskii/icerik-asistani
+
+# BASLAT.bat dosyasını çalıştır — gerisini otomatik halleder
 ```
 
-### Python SDK kurulumu
+> `BASLAT.bat` gerekirse `kurulum.bat`'ı otomatik çağırır: Python kontrolü → `.venv` oluşturma → pip güncelleme → paket kurulumu.
 
-```powershell
-pip install --upgrade google-genai
-```
+Ollama API varsayılan adresi: `http://localhost:11434`
 
-### Ortam degiskenleri (PowerShell)
+---
 
-```powershell
-$env:GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
-$env:GOOGLE_CLOUD_LOCATION="global"
-$env:GOOGLE_GENAI_USE_VERTEXAI="True"
-```
+## 🎓 Yapay Zeka Kullanımı
 
-### Ilk Gemini 3 Preview istegi
+Bu projede yapay zekadan kod yazımında destek alınmıştır. Ancak:
 
-```python
-from google import genai
-
-client = genai.Client()
-
-response = client.models.generate_content(
-    model="gemini-3-flash-preview",
-    contents="Merhaba! Bana 3 maddede Python'da for dongusunu anlat.",
-)
-
-print(response.text)
-```
-
-
-## 3) Mini Ogrenci Challenge (Opsiyonel)
-1. Terminalde su komutu yaz: `ollama run gemini-3-flash-preview`
-2. Sonra Ollama'da gecerli bir modelle sor: `ollama run gemma3:1b`
-3. Ayni soruyu Gemini 3 preview ile sor.
-4. Cevaplari hiz, detay ve dogruluk acisindan karsilastir.
-
-## 4) Hata Cozme Kisa Notlari
-- `403` alirsan: Billing, Vertex AI API ve IAM rol (`roles/aiplatform.user`) kontrol et.
-- `401` alirsan: `gcloud auth application-default login` komutunu yeniden calistir.
-- `ollama model not found` alirsan once su komutu calistir: `ollama run gemma3:1b`
-- `Model not found` alirsan: model ID'yi kontrol et (`gemini-3-flash-preview`, `gemini-3-pro-preview`, `gemini-3.1-pro-preview`).
-
-## Kaynaklar (Resmi)
-- Ollama Quickstart: https://docs.ollama.com/quickstart
-- Ollama Windows: https://docs.ollama.com/windows
-- Ollama Linux: https://docs.ollama.com/linux
-- Vertex AI Quickstart: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart
-- Gemini 3 Baslangic: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/get-started-with-gemini-3
-- Gemini 3 Pro Model: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-pro
-- Gemini 3 Flash Model: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-flash
+- Projenin ne olacağına ve hangi mesleğe hitap edeceğine **Mete Demirdaş** karar vermiştir
+- Hangi özelliklerin ekleneceğini **Mete Demirdaş** belirlemiştir
+- README içeriği ve proje sunumu **Mete Demirdaş** tarafından düzenlenmiştir
