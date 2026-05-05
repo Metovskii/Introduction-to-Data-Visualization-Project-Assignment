@@ -1,3 +1,5 @@
+<img width="1917" height="1015" alt="veri görsel" src="https://github.com/user-attachments/assets/76e6a1fa-f9e2-4825-b178-b3956851c592" />
+<img width="1917" height="1017" alt="Veri Görselleştirme" src="https://github.com/user-attachments/assets/ba87e588-5f00-46a5-b245-72ec24ce96a9" />
 # ✨ Sosyal Medya & İçerik Üretim Asistanı
 
 <div align="center">
