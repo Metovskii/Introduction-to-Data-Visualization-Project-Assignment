@@ -14,6 +14,10 @@
 
 ---
 
+<img width="413" height="157" alt="data" src="https://github.com/user-attachments/assets/ecebbd7a-4a72-4abe-844f-ad39c61a0b4f" />
+<img width="1917" height="1015" alt="veri görsel" src="https://github.com/user-attachments/assets/7a4e0f01-e9ec-405b-a7f4-2f1e229d0284" />
+
+
 ## 🎯 Bu Proje Nedir?
 
 Haber sitelerinde okuduğunuz uzun ve sıkıcı bir makale ya da aklınıza gelen ham bir fikir, sosyal medyada paylaşılabilir hale gelmesi için saatler alabilir. Doğru format, dikkat çekici bir açılış, platform kuralları... hepsi ayrı bir iş.
